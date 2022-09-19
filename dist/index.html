@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="../src/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Weather App</h1>
+    </header>
+    <div class="mainContainer">
+      <div class="formAndCurrentInfo">
+        <div class="form">
+          <label for="cityName">City Name</label>
+          <input type="text" name="cityName" id="cityName" />
+        </div>
+        <div class="currentInfo">
+          <ul>
+            <li>
+              <i class="material-icons"></i>
+              <p>Humidity:<span id="humidity"> 40</span>%</p>
+            </li>
+            <li>
+              <i class="material-icons"></i>
+              <p>Feels Like: <span id="feels-like"> </span></p>
+            </li>
+            <li>
+              <i class="material-icons"></i>
+              <p>Max Temperature: <span id="max-temp"> </span></p>
+            </li>
+            <li>
+              <i class="material-icons"></i>
+              <p>Min Temperature: <span id="min-temp"> </span></p>
+            </li>
+            <li>
+              <i class="material-icons"></i>
+              <p>Wind Speed: <span id="wind-speed"> </span></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="container">
+        <div class="cityNameHeader">
+          <p>City Name</p>
+          <div class="temperature">
+            <span></span>
+            <span class="degree" id="celcius">°C / </span>
+            <span class="degree" id="fahrenheit"> °F </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
