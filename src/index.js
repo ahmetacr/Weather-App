@@ -14,7 +14,7 @@ import { format } from "date-fns";
   function fetchWeather(cityName = document.querySelector("#cityName").value) {
     const apiKey = "366d3041b4ecd5e8aadb86bc5b2d67d6";
     fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=366d3041b4ecd5e8aadb86bc5b2d67d6`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=366d3041b4ecd5e8aadb86bc5b2d67d6`
     )
       .then((result) => {
         return result.json();
@@ -165,7 +165,7 @@ import { format } from "date-fns";
     const apiForTimeZone = "QKACMRAC44V3";
     let myTimer = setInterval(function fetchTime() {
       fetch(
-        `http://api.timezonedb.com/v2.1/get-time-zone?key=${apiForTimeZone}&format=xml&by=position&lat=${lat}&lng=${lng}`,
+        `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiForTimeZone}&format=xml&by=position&lat=${lat}&lng=${lng}`,
         {
           method: "GET",
           mode: "cors",
