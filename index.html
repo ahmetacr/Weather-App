@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <script src="dist/main.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,0,0"
+    />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Weather App</h1>
+    </header>
+    <div class="mainContainer">
+      <div class="formAndCurrentInfo">
+        <div class="form">
+          <label for="cityName">City Name</label>
+          <input type="text" name="cityName" id="cityName" />
+        </div>
+        <div class="currentInfo">
+          <ul>
+            <li>
+              <i class="material-icons"></i>
+              <p>Humidity:<span id="humidity"> 40</span>%</p>
+            </li>
+            <li>
+              <i class="material-icons"></i>
+              <p>Feels Like: <span id="feels-like"> </span></p>
+            </li>
+            <li>
+              <i class="material-icons"></i>
+              <p>Max Temperature: <span id="max-temp"> </span></p>
+            </li>
+            <li>
+              <i class="material-icons"></i>
+              <p>Min Temperature: <span id="min-temp"> </span></p>
+            </li>
+            <li>
+              <i class="material-icons"></i>
+              <p>Wind Speed: <span id="wind-speed"> </span></p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="container">
+        <div class="cityNameHeader">
+          <p>City Name</p>
+          <div class="temperature">
+            <span></span>
+            <span class="degree" id="celcius">°C / </span>
+            <span class="degree" id="fahrenheit"> °F </span>
+          </div>
+        </div>
+        <div class="info">
+          <div class="time"></div>
+          <div class="description">
+            <p></p>
+            <span class="material-symbols-outlined"> clear_day </span>
+          </div>
+          <div class="date"></div>
+        </div>
+        <div class="forecast">
+          <div class="weatherCard">
+            <div class="cardInfo">
+              <p id="day1" class="dayName">SEP 23</p>
+              <i class="material-symbols-outlined forecastIcon">rainy</i>
+              <p class="forecastDescription">Moderate Rain</p>
+              <div class="tempRange">
+                <p id="lowest" class="lowestTemp">14°C</p>
+                <p id="highest" class="highestTemp">18°C</p>
+              </div>
+            </div>
+          </div>
+          <div class="weatherCard">
+            <div class="cardInfo">
+              <p id="day2" class="dayName"></p>
+              <i class="material-symbols-outlined forecastIcon"></i>
+              <p class="forecastDescription"></p>
+              <div class="tempRange">
+                <p id="lowest" class="lowestTemp"></p>
+                <p id="highest" class="highestTemp"></p>
+              </div>
+            </div>
+          </div>
+          <div class="weatherCard">
+            <div class="cardInfo">
+              <p id="day3" class="dayName"></p>
+              <i class="material-symbols-outlined forecastIcon"></i>
+              <p class="forecastDescription"></p>
+              <div class="tempRange">
+                <p id="lowest" class="lowestTemp"></p>
+                <p id="highest" class="highestTemp"></p>
+              </div>
+            </div>
+          </div>
+          <div class="weatherCard">
+            <div class="cardInfo">
+              <p id="day4" class="dayName"></p>
+              <i class="material-symbols-outlined forecastIcon"></i>
+              <p class="forecastDescription"></p>
+              <div class="tempRange">
+                <p id="lowest" class="lowestTemp"></p>
+                <p id="highest" class="highestTemp"></p>
+              </div>
+            </div>
+          </div>
+          <div class="weatherCard">
+            <div class="cardInfo">
+              <p id="day5" class="dayName"></p>
+              <i class="material-symbols-outlined forecastIcon"></i>
+              <p class="forecastDescription"></p>
+              <div class="tempRange">
+                <p id="lowest" class="lowestTemp"></p>
+                <p id="highest" class="highestTemp"></p>
+              </div>
+            </div>
+          </div>
+          <div class="weatherCard">
+            <div class="cardInfo">
+              <p id="day6" class="dayName"></p>
+              <i class="material-symbols-outlined forecastIcon"></i>
+              <p class="forecastDescription"></p>
+              <div class="tempRange">
+                <p id="lowest" class="lowestTemp"></p>
+                <p id="highest" class="highestTemp"></p>
+              </div>
+            </div>
+          </div>
+          <div class="weatherCard">
+            <div class="cardInfo">
+              <p id="day7" class="dayName"></p>
+              <i class="material-symbols-outlined forecastIcon"></i>
+              <p class="forecastDescription"></p>
+              <div class="tempRange">
+                <p id="lowest" class="lowestTemp"></p>
+                <p id="highest" class="highestTemp"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
