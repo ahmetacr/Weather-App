@@ -1,5 +1,14 @@
 import { format } from "date-fns";
 
+/**
+ * Add those features:
+ * weekly weather estimate
+ * add gifs which changes based on weather condition
+ * fahrenheight celcius switch
+ * max 2000 calls a day function
+ *
+ *  */
+
 (function () {
   window.onload = fetchWeather("Istanbul");
   function fetchWeather(cityName = document.querySelector("#cityName").value) {
@@ -14,6 +23,22 @@ import { format } from "date-fns";
         const lat = response[0].lat;
         const lon = response[0].lon;
         setTime(lat, lon);
+        //take the forecast
+        const dayCount = 7; // seven day forecast
+
+        const newApi = "1d686131fa2c462f1249bd484afe0690";
+        // fetch(
+        //   `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${excludeArr}&appid=${costlyApi}`
+        // )
+        //   .then((response) => {
+        //     return response.json();
+        //   })
+        //   .then((forecast) => {
+        //     let today = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][new Date('2022-09-22').getDay()]
+        //     displayForecast(forecast,currentDay);
+        //     // console.log(forecast);
+        //   });
+
         return { lat, lon };
       })
       .then((response) => {
@@ -33,6 +58,39 @@ import { format } from "date-fns";
       })
       .catch((err) => console.log(err));
   }
+
+  const daysArr = (currentDay) => {
+    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    let newDays = [];
+    for (let i in days) {
+      if (days[i] === currentDay) {
+        i = parseInt(i);
+        newDays.push(days[i]);
+        for (let f = 1; f < 7; f++) {
+          if (i + f < days.length) {
+            newDays.push(days[i + f]);
+          } else {
+            newDays.push(days[Math.abs(days.length - (f + i))]);
+          }
+        }
+      }
+    }
+    return newDays;
+  };
+
+  const setForecast = (lat, lon, currentDay) => {
+    const costlyApi = "0cc0f5bcd06b3f3ce1f708d130f14569";
+    const excludeArr = "current,minutely,hourly,alerts";
+    fetch(
+      `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${excludeArr}&appid=${costlyApi}`
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((forecast) => {
+        displayForecast(forecast, currentDay);
+      });
+  };
 
   const displayCityName = (cityName, countryName) => {
     document.querySelector(".cityNameHeader p").textContent =
@@ -71,12 +129,12 @@ import { format } from "date-fns";
     // set today's date
     const today = format(new Date(), "MMMM dd, yyyy");
     document.querySelector(".date").textContent = today;
-    // Set time
+    // Set time and forecast
     console.log(resetInterval);
     if (resetInterval) {
       setTime(obj.coord.lat, obj.coord.lon, resetInterval);
+      setForecast(obj.coord.lat, obj.coord.lon, date);
     }
-    // continue later
 
     // Description
     const description = capitalizeFirstLetter(obj.weather[0].description);
@@ -103,6 +161,7 @@ import { format } from "date-fns";
 
   function setTime(lat, lng) {
     ClearAllIntervals();
+    let forecastSettled = false;
     const apiForTimeZone = "QKACMRAC44V3";
     let myTimer = setInterval(function fetchTime() {
       fetch(
@@ -115,12 +174,24 @@ import { format } from "date-fns";
           },
         }
       ).then((response) => {
-        response.text().then((data) => {
-          const timeObj = parseXml(data);
-          const time = timeObj.result.formatted["#text"];
-          console.log();
-          document.querySelector(".time").textContent = time.substr(10);
-        });
+        response
+          .text()
+          .then((data) => {
+            const timeObj = parseXml(data);
+            const time = timeObj.result.formatted["#text"];
+            document.querySelector(".time").textContent = time.substr(10);
+            return time.substr(0, 10);
+          })
+          .then((time) => {
+            if (!forecastSettled) {
+              console.log("Should log only once!");
+              let today = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][
+                new Date(time).getDay()
+              ];
+              setForecast(lat, lng, today);
+              forecastSettled = true;
+            }
+          });
       });
     }, 1 * 1000);
   }
@@ -171,4 +242,55 @@ import { format } from "date-fns";
   function ClearAllIntervals() {
     for (var i = 1; i < 99999; i++) window.clearInterval(i);
   }
+
+  const displayForecast = (forecast, day) => {
+    console.log("Forecast: ", forecast.daily);
+    console.log("Forecast: ", forecast.daily[0].weather[0].main);
+    console.log("Today is: ", day);
+    const weekDays = daysArr(day);
+    console.log("Weekdays: ", weekDays);
+    // Display the Day name:
+    const dayNameParas = document.querySelectorAll(".dayName");
+    let i = 0;
+    dayNameParas.forEach((para) => {
+      para.textContent = weekDays[i];
+      i++;
+    });
+    // Display the icon
+    const weatherObject = {
+      Rain: "rainy",
+      Snow: "cloudy_snowing",
+      Clear: "clear_day",
+      Clouds: "cloudy",
+    };
+    const forecastIcons = document.querySelectorAll(".forecastIcon");
+    let k = 0;
+    forecastIcons.forEach((icon) => {
+      let iconName = forecast.daily[k].weather[0].main;
+      icon.textContent = weatherObject[iconName];
+      k++;
+    });
+    // Display the description
+    const forecastDescriptions = document.querySelectorAll(
+      ".forecastDescription"
+    );
+    let j = 0;
+    forecastDescriptions.forEach((desc) => {
+      desc.textContent = forecast.daily[j].weather[0].description.toUpperCase();
+      j++;
+    });
+    // Display the lowest and highest temperatures
+    const lowestTempParas = document.querySelectorAll(".lowestTemp");
+    let f = 0;
+    lowestTempParas.forEach((para) => {
+      para.textContent = kelvinToCelcius(forecast.daily[f].temp.min) + "°C";
+      f++;
+    });
+    const highestTempParas = document.querySelectorAll(".highestTemp");
+    let z = 0;
+    highestTempParas.forEach((para) => {
+      para.textContent = kelvinToCelcius(forecast.daily[z].temp.max) + "°C";
+      z++;
+    });
+  };
 })();
