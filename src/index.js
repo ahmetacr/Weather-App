@@ -2,17 +2,15 @@ import { format } from "date-fns";
 
 /**
  * Add those features:
- * weekly weather estimate
- * add gifs which changes based on weather condition
  * fahrenheight celcius switch
  * max 2000 calls a day function
- *
  *  */
 
 (function () {
   window.onload = fetchWeather("Istanbul");
   function fetchWeather(cityName = document.querySelector("#cityName").value) {
     const apiKey = "366d3041b4ecd5e8aadb86bc5b2d67d6";
+    // At first we get the coordinates
     fetch(
       `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=366d3041b4ecd5e8aadb86bc5b2d67d6`
     )
@@ -23,25 +21,10 @@ import { format } from "date-fns";
         const lat = response[0].lat;
         const lon = response[0].lon;
         setTime(lat, lon);
-        //take the forecast
-        const dayCount = 7; // seven day forecast
-
-        const newApi = "1d686131fa2c462f1249bd484afe0690";
-        // fetch(
-        //   `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${excludeArr}&appid=${costlyApi}`
-        // )
-        //   .then((response) => {
-        //     return response.json();
-        //   })
-        //   .then((forecast) => {
-        //     let today = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][new Date('2022-09-22').getDay()]
-        //     displayForecast(forecast,currentDay);
-        //     // console.log(forecast);
-        //   });
-
         return { lat, lon };
       })
       .then((response) => {
+        // after the coordinates are present, we can start getting the current weather data
         return fetch(
           `https://api.openweathermap.org/data/2.5/weather?lat=${response.lat}&lon=${response.lon}&appid=${apiKey}`
         );
@@ -50,7 +33,6 @@ import { format } from "date-fns";
         return weatherObj.json();
       })
       .then((obj) => {
-        console.log(obj);
         displayCityName(cityName, obj.sys.country);
         setTemperature(obj.main.temp);
         setSideBarDetails(obj);
@@ -130,12 +112,10 @@ import { format } from "date-fns";
     const today = format(new Date(), "MMMM dd, yyyy");
     document.querySelector(".date").textContent = today;
     // Set time and forecast
-    console.log(resetInterval);
     if (resetInterval) {
       setTime(obj.coord.lat, obj.coord.lon, resetInterval);
       setForecast(obj.coord.lat, obj.coord.lon, date);
     }
-
     // Description
     const description = capitalizeFirstLetter(obj.weather[0].description);
     document.querySelector(".description > p").textContent = description;
@@ -184,7 +164,6 @@ import { format } from "date-fns";
           })
           .then((time) => {
             if (!forecastSettled) {
-              console.log("Should log only once!");
               let today = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][
                 new Date(time).getDay()
               ];
@@ -244,11 +223,7 @@ import { format } from "date-fns";
   }
 
   const displayForecast = (forecast, day) => {
-    console.log("Forecast: ", forecast.daily);
-    console.log("Forecast: ", forecast.daily[0].weather[0].main);
-    console.log("Today is: ", day);
     const weekDays = daysArr(day);
-    console.log("Weekdays: ", weekDays);
     // Display the Day name:
     const dayNameParas = document.querySelectorAll(".dayName");
     let i = 0;
